@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+sqlalchemy
+python-dotenv
+pydantic
+scikit-learn
+numpy
+pandas
+google-generativeai

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>AI Fitness Dashboard</title>
+
+<link rel="stylesheet" href="style.css">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Your AI Fitness Plan</h1>
+
+<div class="card">
+<h2>Daily Macros</h2>
+<canvas id="macroChart"></canvas>
+</div>
+
+<div class="card">
+<h2>Weight Progress</h2>
+<canvas id="weightChart"></canvas>
+</div>
+
+<div class="grid">
+
+<div class="card">
+<h2>Workout Plan</h2>
+<div id="workout"></div>
+</div>
+
+<div class="card">
+<h2>Diet Plan</h2>
+<div id="diet"></div>
+</div>
+
+</div>
+
+<div class="card">
+<h2>AI Coach Advice</h2>
+<p id="ai"></p>
+</div>
+
+</div>
+
+<script>
+
+const stored = localStorage.getItem("fitnessResult")
+
+if(!stored){
+    document.body.innerHTML = "<h2 style='text-align:center'>No data found. Please generate a plan first.</h2>"
+}
+
+const data = JSON.parse(stored)
+
+console.log("Loaded data:", data)
+
+// -------- MACRO CHART --------
+
+if(data.macros){
+
+const ctx = document.getElementById("macroChart")
+
+new Chart(ctx,{
+type:"doughnut",
+data:{
+labels:["Protein","Carbs","Fats"],
+datasets:[{
+data:[
+data.macros.protein,
+data.macros.carbs,
+data.macros.fats
+]
+}]
+}
+})
+
+}
+
+// -------- WORKOUT --------
+
+if(data.workout){
+
+const workoutDiv = document.getElementById("workout")
+
+data.workout.exercises.forEach(ex=>{
+
+const card=document.createElement("div")
+
+card.className="card"
+
+card.innerHTML=
+`
+<b>${ex}</b><br>
+Sets: ${data.workout.sets}<br>
+Reps: ${data.workout.reps}
+`
+
+workoutDiv.appendChild(card)
+
+})
+
+}
+
+// -------- DIET --------
+
+if(data.diet){
+
+const dietDiv=document.getElementById("diet")
+
+data.diet.meals.forEach(meal=>{
+
+const card=document.createElement("div")
+
+card.className="card"
+
+card.innerHTML=`${meal}`
+
+dietDiv.appendChild(card)
+
+})
+
+}
+
+// -------- AI TEXT --------
+
+if(data.ai_explanation){
+
+document.getElementById("ai").innerText=data.ai_explanation
+
+}
+
+// -------- WEIGHT GRAPH --------
+
+const weeks=["Week 1","Week 2","Week 3","Week 4"]
+
+const weights=[55,56,57,58]
+
+const weightCtx=document.getElementById("weightChart")
+
+new Chart(weightCtx,{
+type:"line",
+data:{
+labels:weeks,
+datasets:[{
+label:"Weight Progress",
+data:weights,
+tension:0.3
+}]
+}
+})
+
+</script>
+
+</body>
+</html>

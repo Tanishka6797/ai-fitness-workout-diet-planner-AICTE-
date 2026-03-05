@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>AI Fitness Planner</title>
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>AI Fitness Planner</h1>
+
+<form id="fitnessForm">
+
+<label>How old are you?</label>
+<input type="number" id="age" required>
+
+<label>Select your gender</label>
+<select id="gender">
+<option>Male</option>
+<option>Female</option>
+</select>
+
+<label>What is your height (in cm)?</label>
+<input type="number" id="height" required>
+
+<label>What is your weight (in kg)?</label>
+<input type="number" id="weight" required>
+
+<label>What is your fitness goal?</label>
+<select id="goal">
+<option>Weight gain</option>
+<option>Fat loss</option>
+<option>Maintenance</option>
+</select>
+
+<label>What is your daily food budget?</label>
+<select id="budget">
+<option>Low</option>
+<option>Medium</option>
+<option>High</option>
+</select>
+
+<label>What type of diet do you prefer?</label>
+<select id="food_type">
+<option>Vegetarian</option>
+<option>Non-veg</option>
+<option>Vegan</option>
+<option>Jain</option>
+</select>
+
+<label>What workout equipment do you have?</label>
+<select id="equipment">
+<option>None</option>
+<option>Dumbbells</option>
+<option>Gym</option>
+</select>
+
+<label>How many minutes can you workout daily?</label>
+<input type="number" id="time">
+
+<label>How many hours do you sleep?</label>
+<input type="number" id="sleep">
+
+<label>What is your current stress level?</label>
+<select id="stress">
+<option>Low</option>
+<option>Medium</option>
+<option>High</option>
+</select>
+
+<button type="submit">Generate My AI Plan</button>
+
+</form>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
