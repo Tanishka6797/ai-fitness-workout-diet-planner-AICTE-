@@ -6,6 +6,8 @@ from models.workout import generate_workout
 from models.diet import generate_diet
 from llm.gemini_service import generate_llm_response
 
+import os
+
 app = FastAPI()
 
 # Enable CORS so frontend can connect
@@ -17,12 +19,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
 @app.post("/generate-plan")
 def generate_plan(data: dict):
 
     # ---------- CALORIE CALCULATIONS ----------
-
     bmr = calculate_bmr(
         data["age"],
         data["gender"],
@@ -36,34 +36,26 @@ def generate_plan(data: dict):
 
     macros = calculate_macros(calories, data["weight"])
 
-
     # ---------- WORKOUT GENERATION ----------
-
     workout = generate_workout(
         goal=data["goal"],
         equipment=data["equipment"],
         time=data["time"]
     )
 
-
     # ---------- DIET GENERATION ----------
-
     diet = generate_diet(
         macros,
         data["food_type"]
     )
 
-
     # ---------- AI COACH ADVICE ----------
-
     try:
         ai_explanation = generate_llm_response(data, macros)
     except:
         ai_explanation = "Stay consistent with workouts, eat balanced meals, and get proper sleep."
 
-
     # ---------- FINAL RESPONSE ----------
-
     return {
         "status": "success",
         "macros": macros,
@@ -71,3 +63,9 @@ def generate_plan(data: dict):
         "diet": diet,
         "ai_explanation": ai_explanation
     }
+
+# Required for Render
+if __name__ == "__main__":
+    import uvicorn
+    port = int(os.environ.get("PORT", 10000))
+    uvicorn.run(app, host="0.0.0.0", port=port)
